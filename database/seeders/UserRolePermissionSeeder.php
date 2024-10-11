@@ -35,16 +35,15 @@ class UserRolePermissionSeeder extends Seeder
         Permission::create(['name' => 'update user']);
         Permission::create(['name' => 'delete user']);
 
-        Permission::create(['name' => 'view product']);
-        Permission::create(['name' => 'create product']);
-        Permission::create(['name' => 'update product']);
-        Permission::create(['name' => 'delete product']);
+        Permission::create(['name' => 'view post']);
+        Permission::create(['name' => 'create post']);
+        Permission::create(['name' => 'update post']);
+        Permission::create(['name' => 'delete post']);
 
 
         // Create Roles
         $superAdminRole = Role::create(['name' => 'super-admin']); //as super-admin
         $adminRole = Role::create(['name' => 'admin']);
-        $staffRole = Role::create(['name' => 'staff']);
         $userRole = Role::create(['name' => 'user']);
 
         // Lets give all permission to super-admin role.
@@ -67,6 +66,7 @@ class UserRolePermissionSeeder extends Seeder
                     'name' => 'Super Admin',
                     'email' => 'superadmin@gmail.com',
                     'password' => Hash::make ('12345678'),
+                    'image' =>'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyzz0nwW80C5NM4wXwDvTpqYyV4RBG2h9Wfw&s'
                 ]);
 
         $superAdminUser->assignRole($superAdminRole);
@@ -78,20 +78,22 @@ class UserRolePermissionSeeder extends Seeder
                             'name' => 'Admin',
                             'email' => 'admin@gmail.com',
                             'password' => Hash::make ('12345678'),
+                            'image' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQk_2l0FP-lvHMkV0hFDPne9k5VMZXl9pqIgA&s'
                         ]);
 
         $adminUser->assignRole($adminRole);
 
 
-        $staffUser = User::firstOrCreate([
-                            'email' => 'staff@gmail.com',
+        $User = User::firstOrCreate([
+                            'email' => 'rahaf@gmail.com',
                         ], [
-                            'name' => 'Staff',
-                            'email' => 'staff@gmail.com',
+                            'name' => 'Rahaf Alsalman',
+                            'email' => 'rahaf@gmail.com',
                             'password' => Hash::make('12345678'),
+                            'image'=> 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr8xHBZom3RVFJ6v4g4FOrh2KapHsP2Yk7Fw&s'
                         ]);
 
-        $staffUser->assignRole($staffRole);
+        $User->assignRole($userRole);
     }
 
 }
