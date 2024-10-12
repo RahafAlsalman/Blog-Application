@@ -23,11 +23,15 @@
 
                 <div class="card ">
                     <div class="card-header">
-                        <h4>Permissions
-                            @can('create permission')
-                            <a href="{{ url('permissions/create') }}" class="btn btn-primary float-end">Add Permission</a>
-                            @endcan
-                        </h4>
+                       <div class="p-2 flex-grow-1">
+                            <h3>Permissions</h3>
+                        </div>
+                  <div class="p-2">
+                  @can('create permission')
+                  <a href="{{ url('permissions/create') }}" class="btn btn-primary float-end">Add Permission</a>
+                  @endcan
+                  </div>
+              </div>
                     </div>
                     <div class="card-body">
 

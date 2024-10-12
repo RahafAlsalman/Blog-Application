@@ -25,10 +25,14 @@
                 @endif
 
                 <div class="card">
-                    <div class="card-header">
-                        <h4>Edit Role
-                            <a href="{{ url('roles') }}" class="btn btn-danger float-end">Back</a>
-                        </h4>
+                <div class="card-header">
+                         <div class="p-2 flex-grow-1">
+                            <h3>Edit Role</h3>
+                        </div>
+                   <div class="p-2">
+                         <button onclick="history.back()" class="btn back" title="Back">&larr; Back</button>
+                    </div>
+              </div>
                     </div>
                     <div class="card-body">
                         <form action="{{ url('roles/'.$role->id) }}" method="POST">

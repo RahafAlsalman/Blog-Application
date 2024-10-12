@@ -14877,7 +14877,9 @@ a.close.disabled {
 }
 
 .bg-primary {
-  background-color: #6640b2 !important;
+  font-size: 13px;
+
+  background-color: #ffffff00 !important;
 }
 
 a.bg-primary:hover, a.bg-primary:focus,
@@ -20507,7 +20509,7 @@ dl li {
 /* Sidebar */
 .sidebar {
   min-height: calc(100vh - 65px);
-  background: #1f1919b5;
+  background: #1f19199c;
   font-family: "Source Sans Pro", sans-serif;
   font-weight: 600;
   padding: 0;
@@ -20627,7 +20629,7 @@ dl li {
 }
 
 .sidebar .nav .nav-item.active > .nav-link {
-  background: #183188;
+  background: #99130d78;
   position: relative;
 }
 
@@ -20650,7 +20652,7 @@ dl li {
 }
 
 .sidebar .nav:not(.sub-menu) > .nav-item:hover > .nav-link {
-  background: #183188;
+  background:#99130d78;
   color: #ffffff;
 }
 
@@ -21167,5 +21169,9 @@ dl li {
     padding-left: 20px;
   }
 }
-
+.btn.back {
+	background-color: #ececec;
+   color:#022e48;
+  
+}
 /*# sourceMappingURL=maps/style.css.map */

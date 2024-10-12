@@ -31,12 +31,13 @@ class PostController extends Controller
         $post=Post::find($postId);
         return view('post.edit', ['post' => $post] );
     }
+
     public function store(Request $request)
 {
     
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'content' => 'required|string',
+ $request->validate([
+        'title' => 'required|string|max:255|regex:/^[a-zA-Z\s]+$/',
+        'content' => 'required|string|regex:/^(\S+\s+){1,}\S+$/',
     ]);
 
     $post = new Post($request->only('title', 'content'));
@@ -51,8 +52,8 @@ public function update(Request $request, $id)
     {
         // Validate the incoming request data
         $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
+            'title' => 'required|string|max:255|regex:/^[a-zA-Z\s]+$/',
+            'content' => 'required|string|regex:/^(\S+\s+){1,}\S+$/',
         ]);
 
         $post = Post::findOrFail($id);
@@ -63,7 +64,7 @@ public function update(Request $request, $id)
         return redirect()->route('dashboard')->with('success', 'Post updated successfully.');
     }
 
-public function destroy($postId)
+   public function destroy($postId)
     {
         $post = Post::find($postId);
         $post->delete();

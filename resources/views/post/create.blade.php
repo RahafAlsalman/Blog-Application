@@ -7,11 +7,14 @@
             <div class="col-lg-8 grid-margin stretch-card ">
               <div class="card" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;">
               <div class="card-header">
-              <div class="d-flex">
-               <div class="p-2 flex-grow-1">  <h3>Create Post</h3></div>
-                 <div class="p-2"><button onclick="history.back()" class="btn back" title="Back">&larr; Back</button></div>
-                   </div>
-                     </div>      
+    <div class="p-2 flex-grow-1">
+        <h3>Create Post</h3>
+    </div>
+    <div class="p-2">
+        <button onclick="history.back()" class="btn back" title="Back">&larr; Back</button>
+    </div>
+</div>
+     
                      <div class="card-body">
                      <form id="myForm" action="{{ route('posts.store') }}" method="post" enctype="multipart/form-data">
                      @csrf  

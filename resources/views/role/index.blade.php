@@ -22,13 +22,16 @@
 
                 <div class="card mt-3">
                     <div class="card-header">
-                        <h4>
-                            Roles
-                            @can('create role')
-                            <a href="{{ url('roles/create') }}" class="btn btn-primary float-end">Add Role</a>
-                            @endcan
-                        </h4>
+                       <div class="p-2 flex-grow-1">
+                               <h3>Roles</h3>
+                       </div>
+                      <div class="p-2">
+                          @can('create role')
+                                <a href="{{ url('roles/create') }}" class="btn btn-primary float-end">Add Role</a>
+                          @endcan    
                     </div>
+                  </div>
+                </div>
                     <div class="card-body">
 
                         <table class="table table-bordered table-striped">

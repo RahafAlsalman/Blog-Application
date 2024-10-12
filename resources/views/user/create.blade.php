@@ -25,9 +25,13 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h4>Create User
-                            <a href="{{ url('users') }}" class="btn btn-danger float-end">Back</a>
-                        </h4>
+                    <div class="p-2 flex-grow-1">
+        <h3>Create User</h3>
+    </div>
+    <div class="p-2">
+        <button onclick="history.back()" class="btn back" title="Back">&larr; Back</button>
+    </div>
+</div>
                     </div>
                     <div class="card-body">
                         <form action="{{ url('users') }}" method="POST">
@@ -54,6 +58,7 @@
                                     @endforeach
                                 </select>
                             </div>
+                            
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </div>
