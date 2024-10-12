@@ -21,7 +21,7 @@ class CommentController extends Controller
 
         return response()->json([
             'user_name' => $comment->user->name, // Assuming you have a relationship set up
-            'image' => $comment->user->image,
+            'image' => $comment->user->image ? $comment->user->image : 'https://www.exscribe.com/wp-content/uploads/2021/08/placeholder-image-person-jpg.jpg',
             'is_owner' => $comment->user_id == Auth::user()->id, // Check if the user is the owner
             'comment_id' =>$comment->id,
             'comment' => $comment->comment,
