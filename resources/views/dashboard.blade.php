@@ -70,14 +70,22 @@
     <h6>Comments:</h6>
     <div class="comments-list" id="comments-list-{{$post->id}}">
         @foreach($post->comments as $comment)
-            <div class="comment" id="comment-{{$comment->id}}">
-                <img src="{{$comment->user->image}}" alt="user" class="circular-image">
+        <div class="comment d-flex align-items-center justify-content-between mb-3" id="comment-{{$comment->id}}">
+            <div class="d-flex align-items-center">
+                <img src="{{$comment->user->image}}" alt="user" class="circular-image me-2">
                 <span>{{$comment->user->name}}: <span class="comment-text">{{$comment->comment}}</span></span>
-                @if($comment->user->id == Auth::id()) <!-- Check if the comment belongs to the logged-in user -->
-                    <button class="edit-comment btn btn-sm btn-secondary" data-comment-id="{{$comment->id}}">Edit</button>
-                    <button class="delete-comment btn btn-sm btn-danger" data-comment-id="{{$comment->id}}">Delete</button>
-                @endif
             </div>
+            @if($comment->user->id == Auth::id())
+            <div class="ms-auto d-flex">
+                <button class="edit-comment btn btn-sm me-2" data-comment-id="{{ $comment->id }}">
+                    <i class="mdi mdi-table-edit"></i>
+                </button>
+                <button class="delete-comment btn btn-sm" data-comment-id="{{ $comment->id }}">
+                    <i class="mdi mdi-delete"></i>
+                </button>
+            </div>
+            @endif
+        </div>
         @endforeach
     </div>
     <div class="input-group mt-3">
@@ -85,7 +93,7 @@
         <div class="input-group-append">
             <button class="submit-comment btn btn-sm btn-facebook" data-post-id="{{$post->id}}" type="button">
                 <i class="mdi mdi-send"></i>
-            </button>
+                </button>
         </div>
     </div>
 
@@ -96,89 +104,78 @@
   
 </div>
 
+<!-- Include jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-function confirmDelete(postId) {
-    Swal.fire({
-        title: 'Are you sure?',
-        text: 'You won\'t be able to revert this!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $('#deleteForm' + postId).submit();
-        }
-    });
-}
 
+<script>
 $(document).ready(function() {
-    // Use a class selector to target all toggle buttons
+
+    // Toggle comments section visibility
     $('.toggle-comments').on('click', function() {
         const postId = $(this).data('post-id');
         const commentsSection = $('#comments-section-' + postId);
-        
-        // Toggle the visibility of the comments section
         commentsSection.toggle();
-
     });
+
+    // Submit a comment
     $('.submit-comment').click(function() {
-     
-    const postId = $(this).data('post-id');
-    const comment = $(`#comment-input-${postId}`).val(); // Use backticks for template literals
-    const userId = {{ auth()->id() }}; // Assuming the user is authenticated
+        const postId = $(this).data('post-id');
+        const comment = $(`#comment-input-${postId}`).val();
+        const userId = {{ auth()->id() }};  // Use the authenticated user's ID
 
-    if (comment) {
-        $.ajax({
-            url: '/comments', // Change this to your route for storing comments
-            method: 'POST',
-            data: {
-                user_id: userId,
-                post_id: postId,
-                comment: comment,
-                _token: '{{ csrf_token() }}' // Include CSRF token for security
-            },
-            success: function(response) {
-    // Add the new comment to the correct comments list
-    $(`#comments-list-${postId}`).append( // Use backticks for template literals
-        `<div class="comment">
-            <img src="${response.image}" alt="user" class="circular-image">
-            <span>${response.user_name}: ${response.comment}</span>
-            ${response.is_owner ? `
-                <button class="edit-comment btn btn-sm btn-secondary" data-comment-id="${response.comment_id}">Edit</button>
-                <button class="delete-comment btn btn-sm btn-danger" data-comment-id="${response.comment_id}">Delete</button>
-            ` : ''}
-        </div>`
-    );
-    $(`#comment-input-${postId}`).val(''); // Clear the input
-},
-            error: function(xhr) {
-                console.log(xhr.responseText); // Handle errors if needed
-            }
-        });
-    } else {
-        alert('Please write a comment before submitting.');
-    }
-});
+        if (comment) {
+            $.ajax({
+                url: '/comments',  // Your route for storing comments
+                method: 'POST',
+                data: {
+                    user_id: userId,
+                    post_id: postId,
+                    comment: comment,
+                    _token: '{{ csrf_token() }}'  // CSRF token for security
+                },
+                success: function(response) {
+                    // Append the new comment to the list
+                    $(`#comments-list-${postId}`).append(
+                        `<div class="comment" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 9px;" id="comment-${response.comment_id}">
+                            <div style="flex-grow: 1;">
+                                <img src="${response.image}" alt="user" class="circular-image me-2">
+                                <span>${response.user_name}: <span class="comment-text">${response.comment}</span></span>
+                            </div>
+                            ${response.is_owner ? `
+                            <div>
+                                <button class="edit-comment btn btn-sm" data-comment-id="${response.comment_id}"><i class="mdi mdi-table-edit"></i></button>
+                                <button class="delete-comment btn btn-sm" data-comment-id="${response.comment_id}"><i class="mdi mdi-delete"></i></button>
+                            </div>` : ''}
+                        </div>`
+                    );
+                    $(`#comment-input-${postId}`).val('');  // Clear the input
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);  // Log any errors
+                }
+            });
+        } else {
+            alert('Please write a comment before submitting.');
+        }
+    });
 
-$('.edit-comment').click(function () {
+    // Edit comment functionality
+    $(document).on('click', '.edit-comment', function () {
         const commentId = $(this).data('comment-id');
         const commentTextElement = $(`#comment-${commentId} .comment-text`);
         const currentText = commentTextElement.text();
-        
+
         const newCommentText = prompt('Edit your comment:', currentText);
-        
+
         if (newCommentText !== null) {
             $.ajax({
                 url: `/comments/${commentId}`,
                 type: 'PUT',
                 data: {
                     comment: newCommentText,
-                    _token: '{{ csrf_token() }}' // Add CSRF token for Laravel
+                    _token: '{{ csrf_token() }}'  // CSRF token for security
                 },
-                success: function (data) {
+                success: function(data) {
                     if (data.success) {
                         commentTextElement.text(newCommentText);
                     } else {
@@ -189,8 +186,8 @@ $('.edit-comment').click(function () {
         }
     });
 
-    // Delete Comment
-    $('.delete-comment').click(function () {
+    // Delete comment functionality
+    $(document).on('click', '.delete-comment', function () {
         const commentId = $(this).data('comment-id');
 
         if (confirm('Are you sure you want to delete this comment?')) {
@@ -198,7 +195,7 @@ $('.edit-comment').click(function () {
                 url: `/comments/${commentId}`,
                 type: 'DELETE',
                 data: {
-                    _token: '{{ csrf_token() }}' // Add CSRF token for Laravel
+                    _token: '{{ csrf_token() }}'  // CSRF token for security
                 },
                 success: function (data) {
                     if (data.success) {
@@ -210,11 +207,9 @@ $('.edit-comment').click(function () {
             });
         }
     });
+
+
 });
 </script>
-
-
-
-
 
 @endsection

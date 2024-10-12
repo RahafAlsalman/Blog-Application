@@ -23,7 +23,7 @@ class CommentController extends Controller
             'user_name' => $comment->user->name, // Assuming you have a relationship set up
             'image' => $comment->user->image,
             'is_owner' => $comment->user_id == Auth::user()->id, // Check if the user is the owner
-
+            'comment_id' =>$comment->id,
             'comment' => $comment->comment,
         ]);
     }
