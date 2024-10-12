@@ -141,15 +141,19 @@ $(document).ready(function() {
                 _token: '{{ csrf_token() }}' // Include CSRF token for security
             },
             success: function(response) {
-                // Add the new comment to the correct comments list
-                $(`#comments-list-${postId}`).append( // Use backticks for template literals
-                    `<div class="comment">
-                        <img src="${response.image}" alt="user" class="circular-image">
-                        <span>${response.user_name}: ${response.comment}</span>
-                    </div>`
-                );
-                $(`#comment-input-${postId}`).val(''); // Clear the input
-            },
+    // Add the new comment to the correct comments list
+    $(`#comments-list-${postId}`).append( // Use backticks for template literals
+        `<div class="comment">
+            <img src="${response.image}" alt="user" class="circular-image">
+            <span>${response.user_name}: ${response.comment}</span>
+            ${response.is_owner ? `
+                <button class="edit-comment btn btn-sm btn-secondary" data-comment-id="${response.comment_id}">Edit</button>
+                <button class="delete-comment btn btn-sm btn-danger" data-comment-id="${response.comment_id}">Delete</button>
+            ` : ''}
+        </div>`
+    );
+    $(`#comment-input-${postId}`).val(''); // Clear the input
+},
             error: function(xhr) {
                 console.log(xhr.responseText); // Handle errors if needed
             }
