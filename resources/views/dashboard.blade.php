@@ -2,7 +2,8 @@
 @section('content')
 
 <div class="container-fluid page-body-wrapper">
-    
+<div class="main-panel">
+
         <div class="content-wrapper">
         @can('create post')
 
@@ -16,6 +17,8 @@
 
             <div class="row mb-4" style="font-family: 'Tajawal', sans-serif;">   
             <div class="col-lg-12 grid-margin stretch-card">
+            @can('view post')
+
     @foreach($posts as $post)
         <div class="card">
             <div class="card-body">
@@ -96,6 +99,7 @@
                 </div>
             </div>
             @endforeach
+            @endcan
         </div>
   
 </div>

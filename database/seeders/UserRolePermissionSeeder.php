@@ -56,6 +56,7 @@ class UserRolePermissionSeeder extends Seeder
         $adminRole->givePermissionTo(['create permission', 'view permission']);
         $adminRole->givePermissionTo(['create user', 'view user', 'update user']);
         $adminRole->givePermissionTo(['create post', 'view post', 'update post']);
+        $userRole->givePermissionTo([ 'view post']);
 
 
         // Let's Create User and assign Role to it.
